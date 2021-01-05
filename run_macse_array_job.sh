@@ -5,7 +5,7 @@
 #set -euo pipefail
 
 #list files in the directory that you are working in, the file names are stored as an array 
-declare -a array=( $(ls /mnt/c/Users/User/Documents/VRC01_escape_mutations/CHAVI_acute_and_chronic_data/Chronic/CF05*HXB2.fasta) )
+declare -a array=( $(ls /path/to/directory/*.fasta) )
 
 arraylength=${#array[@]}
 for ((i=1; i<${arraylength}+1; i++));
@@ -15,7 +15,7 @@ x=${array[$i-1]}
 y=${x%.fasta}
 
 
-java -jar -Xmx600m /mnt/c/Users/User/Downloads/macse_v2.05.jar -prog alignSequences -seq ${x} -out_NT ${y}_macse_out_NT.fasta -out_AA ${y}_macse_out_AA.fasta
+java -jar -Xmx600m /path/to/macse_v2.05.jar -prog alignSequences -seq ${x} -out_NT ${y}_macse_out_NT.fasta -out_AA ${y}_macse_out_AA.fasta
 
 # Note, this deletes the "-" in the fasta headers as well... maybe not a huge problem yet
 
