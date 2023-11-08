@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Create an array to store unique prefixes
+declare -A unique_prefixes
+
+# Iterate through the .fasta files
+for file in *.fasta; do
+    if [ -f "$file" ]; then
+        # Extract the first 6 characters from the filename
+        prefix=$(echo "$file" | cut -c 1-6)
+
+        # Append the current file to the combined file for the prefix
+        if [ -z ${unique_prefixes[$prefix]+_} ]; then
+            # If the combined file doesn't exist, create it and initialize the array entry
+            unique_prefixes[$prefix]="$prefix"_combined.fasta
+            cat "$file" > "${unique_prefixes[$prefix]}"
+        else
+            # If the combined file exists, append the content
+            cat "$file" >> "${unique_prefixes[$prefix]}"
+        fi
+    fi
+done
+
+# Output the result
+for prefix in "${!unique_prefixes[@]}"; do
+    echo "Concatenated files with prefix $prefix into ${unique_prefixes[$prefix]}"
+done
+#Here's how this script works:
+
+#It iterates through all .fasta files in the current directory.
+#For each file, it extracts the first 6 characters of the filename to determine the prefix.
+#It checks whether a combined file for that prefix already exists. If it doesn't exist, a new combined file is created and initialized with the content of the current file. If it does exist, the content of the current file is appended to the existing combined file.
+#After processing all the files, the script outputs a message for each prefix indicating which files were concatenated into which combined file.
+#Save this script to a file (e.g., concatenate_files.sh), make it executable using chmod +x concatenate_files.sh, and then run it in the directory where your .fasta files are located. It will create the combined files as specified.
+
+
+
