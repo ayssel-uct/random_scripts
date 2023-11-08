@@ -1,4 +1,5 @@
 #!/bin/bash
+#ChatGPT generated based on prompts by AY
 
 # Create an array to store unique prefixes
 declare -A unique_prefixes
